@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUGTREE</title>
+    <link rel="stylesheet" href="src/input.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            background: #050505;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff4500;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease, width 0.2s, height 0.2s;
+        }
+
+        #cursor-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #ff6b35;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001;
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch-skew 4s infinite linear alternate-reverse;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            color: #ff4500;
+            animation: glitch-effect 3s infinite linear alternate-reverse;
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 0 25%);
+            /* transform: translate(-2px, -2px); */
+        }
+
+        .glitch::after {
+            color: #fa4500;
+            animation: glitch-effect 2s infinite linear alternate-reverse;
+            clip-path: polygon(0 15%, 100% 65%, 100% 100%, 0 100%);
+            transform: translate(2px, 2px);
+        }
+
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            10% { transform: skew(-2deg); }
+            20% { transform: skew(0deg); }
+            30% { transform: skew(1deg); }
+            40% { transform: skew(0deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        /* Scan Lines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            animation: scanline-move 8s linear infinite;
+        }
+
+        @keyframes scanline-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100vh; }
+        }
+
+        /* Vignette */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9997;
+            background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(0,0,0,0.8) 100%);
+        }
+
+        /* Heat Distortion */
+        .heat-distortion {
+            animation: heat-wave 3s ease-in-out infinite;
+        }
+
+        @keyframes heat-wave {
+            0%, 100% { filter: blur(0px); transform: scaleX(1); }
+            25% { filter: blur(0.5px); transform: scaleX(1.001); }
+            50% { filter: blur(0px); transform: scaleX(0.999); }
+            75% { filter: blur(0.5px); transform: scaleX(1.001); }
+        }
+
+        /* Chromatic Aberration */
+        .chromatic {
+            position: relative;
+        }
+
+        .chromatic::before,
+        .chromatic::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            pointer-events: none;
+        }
+
+        .chromatic::before {
+            transform: translateX(-2px);
+            opacity: 0.5;
+            filter: hue-rotate(-30deg);
+            mix-blend-mode: screen;
+        }
+
+        .chromatic::after {
+            transform: translateX(2px);
+            opacity: 0.5;
+            filter: hue-rotate(30deg);
+            mix-blend-mode: screen;
+        }
+
+        /* Pulsing Glow */
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                text-shadow:
+                    0 0 10px #ff4500,
+                    0 0 20px #ff4500,
+                    0 0 40px #ff6b35,
+                    0 0 80px #ff6b35;
+            }
+            50% {
+                text-shadow:
+                    0 0 20px #ff4500,
+                    0 0 40px #ff4500,
+                    0 0 80px #ff6b35,
+                    0 0 120px #ff6b35,
+                    0 0 160px #ff8c00;
+            }
+        }
+
+        /* Flicker Effect */
+        .flicker {
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Noise Overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9996;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            animation: noise-shift 0.2s steps(10) infinite;
+        }
+
+        @keyframes noise-shift {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -5%); }
+            20% { transform: translate(5%, 5%); }
+            30% { transform: translate(-5%, 5%); }
+            40% { transform: translate(5%, -5%); }
+            50% { transform: translate(-5%, 0); }
+            60% { transform: translate(5%, 0); }
+            70% { transform: translate(0, 5%); }
+            80% { transform: translate(0, -5%); }
+            90% { transform: translate(5%, 5%); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Ember Float */
+        @keyframes ember-rise {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) translateX(10px) scale(1);
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(-20px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Desert Wind Lines */
+        .wind-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,107,53,0.6), transparent);
+            animation: wind-blow 2s linear infinite;
+        }
+
+        @keyframes wind-blow {
+            0% { transform: translateX(-100%) scaleX(0.5); opacity: 0; }
+            50% { opacity: 1; scaleX: 1; }
+            100% { transform: translateX(100vw) scaleX(0.5); opacity: 0; }
+        }
+
+        /* Title Reveal */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: reveal-up 1.5s ease forwards;
+        }
+
+        .reveal-text:nth-child(2) { animation-delay: 0.3s; }
+        .reveal-text:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes reveal-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Blood Drip */
+        .drip {
+            position: absolute;
+            width: 3px;
+            background: linear-gradient(180deg, #ff4500, #8b2500, transparent);
+            animation: drip-fall 4s ease-in infinite;
+            border-radius: 0 0 50% 50%;
+        }
+
+        @keyframes drip-fall {
+            0% { height: 0; opacity: 1; }
+            70% { height: 100px; opacity: 1; }
+            100% { height: 100px; opacity: 0; transform: translateY(20px); }
+        }
+
+        /* Lightning Flash */
+        .lightning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ff4500;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9995;
+            animation: lightning-flash 8s infinite;
+        }
+
+        @keyframes lightning-flash {
+            0%, 89%, 91%, 93%, 95%, 100% { opacity: 0; }
+            90%, 92%, 94% { opacity: 0.1; }
+        }
+
+        /* Skull Flicker */
+        .skull-appear {
+            opacity: 0;
+            animation: skull-flash 10s infinite;
+        }
+
+        @keyframes skull-flash {
+            0%, 94%, 96%, 98%, 100% { opacity: 0; }
+            95%, 97% { opacity: 0.1; }
+        }
+
+        /* Smoke Rise */
+        @keyframes smoke-rise {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-200px) scale(2) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Text Scramble Container */
+        .scramble-text {
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.5em;
+        }
+    </style>
+</head>
+<body class="bg-void text-white overflow-x-hidden">
+    <!-- Cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+
+    <!-- Effects Layers -->
+    <div class="noise"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="lightning"></div>
+
+    <!-- Particle Canvases -->
+    <canvas id="sand-canvas" class="fixed inset-0 z-[9990] pointer-events-none"></canvas>
+    <canvas id="ember-canvas" class="fixed inset-0 z-[9991] pointer-events-none"></canvas>
+
+    <!-- Main Content -->
+    <main class="relative z-30">
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+            <!-- Gradient Background -->
+            <div class="absolute inset-0 bg-gradient-to-b from-void via-charcoal to-void"></div>
+
+            <!-- Desert Horizon Gradient -->
+            <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-rust/20 via-blood/10 to-transparent"></div>
+
+            <!-- Sun/Moon - Ominous Orange Orb -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div class="relative">
+                    <!-- Outer Glow -->
+                    <div class="absolute inset-0 w-48 h-48 md:w-64 md:h-64 rounded-full bg-ember/20 blur-3xl animate-pulse"></div>
+                    <div class="absolute inset-0 w-48 h-48 md:w-64 md:h-64 rounded-full bg-inferno/10 blur-[100px] scale-150"></div>
+                    <!-- Core -->
+                    <div id="sun-orb" class="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-radial from-inferno via-ember to-rust shadow-[0_0_100px_#ff4500,0_0_200px_#ff6b35] heat-distortion">
+                        <!-- Inner texture -->
+                        <div class="absolute inset-2 rounded-full bg-gradient-to-br from-inferno/80 to-transparent"></div>
+                        <div class="absolute inset-0 rounded-full opacity-50" style="background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desert Dunes - Dark Silhouettes -->
+            <svg class="absolute bottom-0 left-0 right-0 w-full h-[40vh]" viewBox="0 0 1440 400" preserveAspectRatio="none">
+                <!-- Far dunes - darkest -->
+                <path fill="#0a0a0a" d="M0,250 Q200,150 400,200 T800,180 T1200,220 T1440,200 L1440,400 L0,400 Z" class="heat-distortion"/>
+                <!-- Mid dunes -->
+                <path fill="#080808" d="M0,280 Q300,200 600,260 T1100,240 T1440,270 L1440,400 L0,400 Z" opacity="0.9"/>
+                <!-- Near dunes with subtle orange rim light -->
+                <path fill="#060606" d="M0,320 Q250,250 500,300 T1000,280 T1440,320 L1440,400 L0,400 Z"/>
+                <path fill="url(#rimLight)" d="M0,318 Q250,248 500,298 T1000,278 T1440,318 L1440,322 Q1000,282 500,302 T0,322 Z" opacity="0.6"/>
+                <!-- Closest dune -->
+                <path fill="#050505" d="M0,360 Q400,300 800,350 T1440,340 L1440,400 L0,400 Z"/>
+
+                <defs>
+                    <linearGradient id="rimLight" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ff4500" stop-opacity="0.4"/>
+                        <stop offset="100%" stop-color="transparent"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <!-- Dead Tree Silhouette -->
+            <svg class="absolute bottom-[15%] left-[20%] w-32 h-48 md:w-48 md:h-64 opacity-80" viewBox="0 0 100 150">
+                <g fill="#030303" filter="drop-shadow(0 0 10px rgba(255,69,0,0.2))">
+                    <!-- Trunk -->
+                    <path d="M45,150 L48,60 Q50,55 52,60 L55,150"/>
+                    <!-- Branches - dead, twisted -->
+                    <path d="M48,80 Q30,70 20,50 Q25,48 30,55 Q35,45 25,30"/>
+                    <path d="M52,75 Q70,60 85,65 Q80,55 90,40"/>
+                    <path d="M50,60 Q55,40 45,20 Q50,25 60,15"/>
+                    <path d="M47,90 Q35,85 25,90 Q30,80 20,75"/>
+                    <path d="M53,85 Q65,75 75,80"/>
+                </g>
+            </svg>
+
+            <!-- Another Dead Tree -->
+            <svg class="absolute bottom-[12%] right-[15%] w-24 h-36 md:w-36 md:h-48 opacity-60" viewBox="0 0 100 150">
+                <g fill="#020202">
+                    <path d="M48,150 L50,70 L52,150"/>
+                    <path d="M50,90 Q70,80 80,85"/>
+                    <path d="M50,75 Q30,60 25,40"/>
+                    <path d="M50,70 Q60,50 55,30"/>
+                </g>
+            </svg>
+
+            <!-- Skull in the sand (subtle) -->
+            <div class="skull-appear absolute bottom-[25%] left-[60%] text-4xl opacity-5" style="transform: rotate(15deg);">
+                ☠
+            </div>
+
+            <!-- Main Title -->
+            <div class="relative z-40 text-center px-4 mt-32">
+                <div class="reveal-text">
+                    <h1 class="glitch font-display text-[12vw] md:text-[10vw] leading-none tracking-wider text-white pulse-glow" data-text="MUGTREE">
+                        MUGTREE
+                    </h1>
+                </div>
+
+                <div class="reveal-text mt-4">
+                    <p class="scramble-text text-sm md:text-base text-ember/80 uppercase" id="tagline">
+                        // DISCORD: meett //
+                    </p>
+                </div>
+
+                <div class="reveal-text mt-12">
+                    <div class="flex items-center justify-center gap-4 text-xs text-white/30 font-mono">
+                        <span class="flicker">●</span>
+                        <span>SYS.STATUS: <span class="text-ember">ACTIVE</span></span>
+                        <span class="flicker">●</span>
+                    </div>
+                </div>
+
+                <!-- Drips from title -->
+                <div class="drip" style="left: 20%; animation-delay: 0s;"></div>
+                <div class="drip" style="left: 45%; animation-delay: 1.5s;"></div>
+                <div class="drip" style="left: 75%; animation-delay: 3s;"></div>
+            </div>
+
+            <!-- Wind Lines -->
+            <div class="wind-line absolute top-[30%] w-[200px]" style="animation-delay: 0s;"></div>
+            <div class="wind-line absolute top-[45%] w-[300px]" style="animation-delay: 0.5s;"></div>
+            <div class="wind-line absolute top-[55%] w-[150px]" style="animation-delay: 1s;"></div>
+            <div class="wind-line absolute top-[65%] w-[250px]" style="animation-delay: 1.5s;"></div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+                <span class="text-xs font-mono text-white/30 tracking-widest">scroll</span>
+                <div class="w-px h-16 bg-gradient-to-b from-ember to-transparent animate-pulse"></div>
+            </div>
+        </section>
+
+        <!-- Second Section - The Void -->
+        <section class="relative min-h-screen flex items-center justify-center bg-void overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-void via-blood/5 to-void"></div>
+
+            <!-- Floating debris/rocks -->
+            <div id="debris-container" class="absolute inset-0 pointer-events-none"></div>
+
+            <div class="relative z-10 text-center px-4">
+                <p class="font-mono text-xs text-ember/50 tracking-[1em] mb-8">=_=</p>
+
+                <h2 class="font-display text-6xl md:text-8xl text-white/90 mb-6 chromatic">
+                    what u doing
+                    <span class="block text-ember pulse-glow">here</span>
+                </h2>
+
+                <p class="max-w-md mx-auto text-white/40 font-mono text-sm leading-relaxed">
+                    i like the desert <br/>
+                    i have dirtbike <br/>
+                    come
+                </p>
+
+                <!-- Coordinates -->
+                <div class="mt-12 font-mono text-xs text-white/20">
+                    <span class="text-ember/60">LAT:</span> 36.1716° N
+                    <span class="mx-4">|</span>
+                    <span class="text-ember/60">LONG:</span> 115.1391° W
+                    <span class="mx-4">|</span>
+                    <span class="text-ember/60">TEMP:</span> <span id="temp-counter">127</span>°F
+                </div>
+            </div>
+
+            <!-- Eerie symbols -->
+            <div class="absolute top-20 left-10 text-6xl text-white/5 rotate-12">◭</div>
+            <div class="absolute bottom-20 right-10 text-6xl text-white/5 -rotate-12">◮</div>
+            <div class="absolute top-1/2 left-5 text-4xl text-ember/10">⟁</div>
+        </section>
+
+        <!-- Third Section - Static/Interference -->
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-void via-charcoal to-void"></div>
+
+            <!-- Interference pattern -->
+            <div class="absolute inset-0 opacity-20" style="background: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,69,0,0.1) 2px, rgba(255,69,0,0.1) 4px);"></div>
+
+            <div class="relative z-10 w-full max-w-4xl mx-auto px-4">
+                <!-- Terminal-style content -->
+                <div class="bg-black/50 border border-ember/20 rounded-sm p-8 font-mono">
+                    <div class="flex items-center gap-2 mb-6 pb-4 border-b border-ember/20">
+                        <div class="w-3 h-3 rounded-full bg-ember/80 flicker"></div>
+                        <div class="w-3 h-3 rounded-full bg-inferno/50"></div>
+                        <div class="w-3 h-3 rounded-full bg-white/20"></div>
+                        <span class="ml-4 text-xs text-white/30">mugtree.net:~</span>
+                    </div>
+
+                    <div class="space-y-4 text-sm">
+                        <p class="text-ember/70">> scanning horizon...</p>
+                        <p class="text-white/50">> signal detected: <span class="text-ember">UNKNOWN ORIGIN</span></p>
+                        <p class="text-white/50">> distance: <span class="text-inferno">∞</span></p>
+                        <p class="text-white/30">> WARNING: this site laggy</p>
+                        <p class="text-ember animate-pulse">_</p>
+                    </div>
+
+                    <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+                        <div class="p-4 border border-ember/10 bg-ember/5">
+                            <div class="text-3xl font-display text-ember" id="counter-days">2847</div>
+                            <div class="text-xs text-white/30 mt-1">DAYS LOST (in job)</div>
+                        </div>
+                        <div class="p-4 border border-ember/10 bg-ember/5">
+                            <div class="text-3xl font-display text-inferno" id="counter-souls">0</div>
+                            <div class="text-xs text-white/30 mt-1">my girfriend count</div>
+                        </div>
+                        <div class="p-4 border border-ember/10 bg-ember/5">
+                            <div class="text-3xl font-display text-white/80">0</div>
+                            <div class="text-xs text-white/30 mt-1">HOPE REMAINING</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fourth Section - The Eye -->
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 bg-void"></div>
+
+            <!-- Concentric circles - ominous eye effect -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative">
+                    <div class="absolute inset-0 w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] rounded-full border border-ember/5 animate-ping" style="animation-duration: 4s;"></div>
+                    <div class="absolute inset-0 w-[60vw] h-[60vw] max-w-[450px] max-h-[450px] rounded-full border border-ember/10 animate-ping" style="animation-duration: 3s; animation-delay: 0.5s;"></div>
+                    <div class="absolute inset-0 w-[40vw] h-[40vw] max-w-[300px] max-h-[300px] rounded-full border border-ember/20 animate-ping" style="animation-duration: 2s; animation-delay: 1s;"></div>
+                    <div class="w-[20vw] h-[20vw] max-w-[150px] max-h-[150px] rounded-full bg-gradient-radial from-ember via-rust to-transparent flex items-center justify-center">
+                        <div class="w-1/2 h-1/2 rounded-full bg-void"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative z-10 text-center">
+                <p class="font-mono text-ember/60 text-xs tracking-[0.5em] mb-4">tank u</p>
+                <h2 class="font-display text-5xl md:text-7xl text-white/90">
+                    I <span class="text-ember pulse-glow">SEE</span> YOU
+                </h2>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="relative py-16 bg-void border-t border-ember/10">
+            <div class="text-center">
+                <p class="font-display text-4xl text-ember/80 pulse-glow mb-4">MUGTREE</p>
+                <p class="font-mono text-xs text-white/20 tracking-widest">
+                    SIGNAL LOST • COORDINATES UNKNOWN • <span class="text-ember/40">STILL TRANSMITTING</span>
+                </p>
+
+                <!-- Glitch bar -->
+                <div class="mt-8 h-px w-48 mx-auto bg-gradient-to-r from-transparent via-ember to-transparent"></div>
+            </div>
+        </footer>
+    </main>
+
+    <script type="module" src="particles.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>

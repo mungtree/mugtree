@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-void: #050505;
+  --color-abyss: #0a0a0a;
+  --color-charcoal: #121212;
+  --color-ember: #ff4500;
+  --color-blaze: #ff6b35;
+  --color-inferno: #ff8c00;
+  --color-magma: #ff5722;
+  --color-rust: #8b2500;
+  --color-blood: #660000;
+
+  --font-family-display: 'Bebas Neue', sans-serif;
+  --font-family-mono: 'Space Mono', monospace;
+}
