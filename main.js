@@ -432,11 +432,8 @@ class Interference {
 class CreepyMessages {
     constructor() {
         this.messages = [
-            'MY DISCORD: meett',
-            'I CODE SOMETIMES',
             'ॐ नमो नारायणाय',
             'ॐ नमः शिवाय',
-            'The moon and sun are kind enough to shine indiscriminately',
             '( ͡° ͜ʖ ͡°)',
             'wassah dude',
         ];
@@ -657,5 +654,5 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     console.log('%c MUGTREE ', 'background: #ff4500; color: #000; font-size: 20px; font-weight: bold;');
-    console.log('%c Welcome to the wasteland... ', 'color: #ff6b35; font-style: italic;');
+    console.log('%c Welcome to my site! ', 'color: #ff6b35; font-style: italic;');
 });
