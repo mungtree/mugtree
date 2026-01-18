@@ -220,13 +220,9 @@ class DarkParallax {
     init() {
         // Cache sun orb element
         this.sunOrb = document.getElementById('sun-orb');
-        if (this.sunOrb) {
-            this.elements.push({
-                el: this.sunOrb.parentElement.parentElement,
-                speed: 0.3,
-                type: 'scroll'
-            });
-        }
+
+        // Note: Removed scroll parallax for sun to prevent teleporting
+        // Sun now only responds to mouse movement
 
         window.addEventListener('scroll', () => this.onScroll(), { passive: true });
         window.addEventListener('mousemove', (e) => this.onMouseMove(e), { passive: true });
@@ -449,7 +445,7 @@ class CreepyMessages {
     }
 
     scheduleMessage() {
-        const delay = 20000 + Math.random() * 40000;
+        const delay = 5000 + Math.random() * 10000;
         setTimeout(() => {
             this.showMessage();
             this.scheduleMessage();
@@ -538,6 +534,37 @@ class SunPulsation {
 }
 
 // ============================================
+// OM SYMBOL COLOR SHIFT
+// ============================================
+class OmColorShift {
+    constructor() {
+        this.omSymbol = document.getElementById('om-symbol');
+        if (!this.omSymbol) return;
+
+        this.colors = [
+            '#ff4500', // inferno
+            '#ff6b35', // ember
+            '#ff8c00', // dark orange
+            '#ffa500', // orange
+            '#ffffff', // white
+            '#ffb347', // light orange
+            '#ff6347', // tomato
+            '#ff4500', // back to inferno
+        ];
+
+        this.currentIndex = 0;
+        this.shift();
+    }
+
+    shift() {
+        setInterval(() => {
+            this.currentIndex = (this.currentIndex + 1) % this.colors.length;
+            this.omSymbol.style.color = this.colors[this.currentIndex];
+        }, 2000);
+    }
+}
+
+// ============================================
 // INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -550,6 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const interference = new Interference();
     const creepyMessages = new CreepyMessages();
     const sunPulse = new SunPulsation();
+    const omColorShift = new OmColorShift();
 
     // Text scramble on tagline
     const tagline = document.getElementById('tagline');
@@ -579,7 +607,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (daysCounter) {
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
-                const counter = new DarkCounter(daysCounter, 2847, 3000);
+                // Calculate days since June 1, 2024
+                const startDate = new Date('2024-06-01');
+                const today = new Date();
+                const diffTime = Math.abs(today - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                const counter = new DarkCounter(daysCounter, diffDays, 3000);
                 counter.start();
                 observer.disconnect();
             }

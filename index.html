@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUGTREE</title>
+    <title>mugtree</title>
     <link rel="stylesheet" href="src/input.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -375,13 +375,17 @@
             <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div class="relative">
                     <!-- Outer Glow -->
-                    <div class="absolute inset-0 w-48 h-48 md:w-64 md:h-64 rounded-full bg-ember/20 blur-3xl animate-pulse"></div>
-                    <div class="absolute inset-0 w-48 h-48 md:w-64 md:h-64 rounded-full bg-inferno/10 blur-[100px] scale-150"></div>
+                    <div class="absolute inset-0 w-48 h-48 md:w-64 md:h-64 rounded-full bg-ember/10 blur-3xl animate-pulse"></div>
+                    <div class="absolute inset-0 w-48 h-48 md:w-64 md:h-64 rounded-full bg-inferno/5 blur-[100px] scale-150"></div>
                     <!-- Core -->
-                    <div id="sun-orb" class="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-radial from-inferno via-ember to-rust shadow-[0_0_100px_#ff4500,0_0_200px_#ff6b35] heat-distortion">
+                    <div id="sun-orb" class="relative w-32 h-32 md:w-40 md:h-40 rounded-full heat-distortion" style="background: radial-gradient(circle, rgba(255,69,0,0.3) 0%, rgba(255,107,53,0.2) 50%, rgba(139,37,0,0.1) 100%); box-shadow: 0 0 50px rgba(255,69,0,0.3), 0 0 100px rgba(255,107,53,0.2);">
                         <!-- Inner texture -->
-                        <div class="absolute inset-2 rounded-full bg-gradient-to-br from-inferno/80 to-transparent"></div>
-                        <div class="absolute inset-0 rounded-full opacity-50" style="background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);"></div>
+                        <div class="absolute inset-2 rounded-full" style="background: radial-gradient(circle, rgba(255,69,0,0.2) 0%, transparent 70%);"></div>
+                        <div class="absolute inset-0 rounded-full opacity-30" style="background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15) 0%, transparent 50%);"></div>
+                        <!-- OM Symbol -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="om-symbol" class="text-6xl md:text-7xl font-bold" style="text-shadow: 0 0 20px currentColor, 0 0 40px currentColor; transition: color 2s ease-in-out, text-shadow 2s ease-in-out;">ॐ</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -452,7 +456,8 @@
                 <div class="reveal-text mt-12">
                     <div class="flex items-center justify-center gap-4 text-xs text-white/30 font-mono">
                         <span class="flicker">●</span>
-                        <span>SYS.STATUS: <span class="text-ember">ACTIVE</span></span>
+                        <span>GITHUB: <a href="https://github.com/mungtree" target="_blank"
+                                class="text-ember">https://github.com/mungtree</a></span>
                         <span class="flicker">●</span>
                     </div>
                 </div>
@@ -540,7 +545,7 @@
 
                     <div class="mt-8 grid grid-cols-3 gap-4 text-center">
                         <div class="p-4 border border-ember/10 bg-ember/5">
-                            <div class="text-3xl font-display text-ember" id="counter-days">2847</div>
+                            <div class="text-3xl font-display text-ember" id="counter-days">0</div>
                             <div class="text-xs text-white/30 mt-1">DAYS LOST (in job)</div>
                         </div>
                         <div class="p-4 border border-ember/10 bg-ember/5">
