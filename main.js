@@ -588,6 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '// THE MIND IS A WONDERFUL SERVANT BUT A TERRIBLE MASTER //',
             '// ( ͡° ͜ʖ ͡°) //',
             '// DISCORD: meett //',
+            '// THE MOON AND SUN ARE KIND ENOUGH TO SHINE INDISCRIMINATELY //',
             '// ॐ नमः शिवाय //',
         ];
 
