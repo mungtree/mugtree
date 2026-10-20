@@ -121,7 +121,7 @@ function terminal() {
 
     const commands = {
         help: () => print('help  whoami  github  discord  date  clear  sudo'),
-        whoami: () => print('mugtree. 23. unbothered.'),
+        whoami: () => print('mugtree. 23.'),
         github: () => { print('opening github.com/mungtree...'); window.open('https://github.com/mungtree', '_blank'); },
         discord: () => print('meett'),
         date: () => print(new Date().toString()),
