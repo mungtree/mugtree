@@ -5,7 +5,7 @@
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Inferno mode: konami code, typing "agni", or the terminal command
+// Inferno mode: konami code or typing "agni"
 let infernoTimer = null;
 function inferno(duration = 8000) {
     document.body.classList.add('inferno');
@@ -108,13 +108,6 @@ function terminal() {
     const out = document.getElementById('term-out');
     if (!input || !out) return;
 
-    const verses = [
-        'You have a right to perform your prescribed duties, but you are not entitled to the fruits of your actions.',
-        'For the soul there is neither birth nor death at any time.',
-        'The mind is restless, turbulent, obstinate and very strong.',
-        'One who sees inaction in action, and action in inaction, is intelligent among men.',
-        'Whatever happened, happened for the good.',
-    ];
     const history = [];
     let cursor = 0;
 
@@ -127,12 +120,10 @@ function terminal() {
     };
 
     const commands = {
-        help: () => print('help  whoami  gita  github  discord  agni  date  clear  sudo'),
+        help: () => print('help  whoami  github  discord  date  clear  sudo'),
         whoami: () => print('mugtree. 23. unbothered.'),
-        gita: () => print(verses[Math.floor(Math.random() * verses.length)], 'text-ember/70'),
         github: () => { print('opening github.com/mungtree...'); window.open('https://github.com/mungtree', '_blank'); },
         discord: () => print('meett'),
-        agni: () => { print('🔥🔥🔥', 'text-ember'); inferno(); },
         date: () => print(new Date().toString()),
         clear: () => out.replaceChildren(),
         sudo: (args) => args.join(' ').includes('rm -rf')
