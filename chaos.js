@@ -128,7 +128,7 @@ function terminal() {
 
     const commands = {
         help: () => print('help  whoami  gita  github  discord  agni  date  clear  sudo'),
-        whoami: () => print('mugtree. 23. unemployed. unbothered.'),
+        whoami: () => print('mugtree. 23. unbothered.'),
         gita: () => print(verses[Math.floor(Math.random() * verses.length)], 'text-ember/70'),
         github: () => { print('opening github.com/mungtree...'); window.open('https://github.com/mungtree', '_blank'); },
         discord: () => print('meett'),
