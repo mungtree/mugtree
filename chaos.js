@@ -76,7 +76,7 @@ function watchingEye() {
     setTimeout(blink, 3000);
 }
 
-// Sun drifts with the cursor; click the ॐ three times for a surprise
+// Sun drifts with the cursor; click it three times for a surprise
 function restlessSun() {
     const sun = document.getElementById('sun');
     if (!sun) return;
@@ -128,7 +128,7 @@ function terminal() {
 
     const commands = {
         help: () => print('help  whoami  gita  github  discord  agni  date  clear  sudo'),
-        whoami: () => print('mugtree. 22. unemployed. unbothered.'),
+        whoami: () => print('mugtree. 23. unemployed. unbothered.'),
         gita: () => print(verses[Math.floor(Math.random() * verses.length)], 'text-ember/70'),
         github: () => { print('opening github.com/mungtree...'); window.open('https://github.com/mungtree', '_blank'); },
         discord: () => print('meett'),
@@ -171,7 +171,7 @@ function terminal() {
 function clingyTab() {
     const original = document.title;
     document.addEventListener('visibilitychange', () => {
-        document.title = document.hidden ? 'come back ॐ' : original;
+        document.title = document.hidden ? 'come back...' : original;
     });
 }
 
