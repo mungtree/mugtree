@@ -59,6 +59,23 @@ class MinimalParticles {
         }
     }
 
+    // Flood the screen with embers rising from the bottom, then let them die off
+    burn(duration) {
+        const extra = Array.from({ length: 300 }, () => ({
+            x: Math.random() * this.canvas.width,
+            y: this.canvas.height + Math.random() * 200,
+            size: Math.random() * 2.5 + 0.5,
+            speedX: (Math.random() - 0.5) * 3,
+            speedY: -Math.random() * 8 - 3,
+            opacity: Math.random() * 0.5 + 0.4,
+            temporary: true,
+        }));
+        this.particles.push(...extra);
+        setTimeout(() => {
+            this.particles = this.particles.filter(p => !p.temporary);
+        }, duration);
+    }
+
     update() {
         this.particles.forEach(p => {
             // Loosely drift toward cursor if it exists
@@ -72,9 +89,9 @@ class MinimalParticles {
                 p.speedX += (dx / dist) * attraction;
                 p.speedY += (dy / dist) * attraction;
 
-                // Dampen speed to keep it slow
+                // Dampen speed to keep it slow (burning embers keep rising)
                 p.speedX *= 0.90;
-                p.speedY *= 0.98;
+                p.speedY = p.temporary ? Math.min(p.speedY, -2) : p.speedY * 0.98;
             }
 
             p.x += p.speedX;
@@ -116,5 +133,5 @@ class MinimalParticles {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new MinimalParticles('ember-canvas');
+    window.embers = new MinimalParticles('ember-canvas');
 });

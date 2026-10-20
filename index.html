@@ -47,6 +47,47 @@
             font-family: 'Space Mono', monospace;
             letter-spacing: 0.3em;
         }
+
+        /* Inferno mode */
+        body.inferno main {
+            animation: shake 0.12s infinite, burn 2s ease-in-out infinite alternate;
+        }
+        body.inferno .title-glow {
+            text-shadow: 0 0 20px #ff4500, 0 0 60px #ff8c00, 0 0 120px #ff0000;
+            color: #ffd2a0;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-3px, 2px); }
+            50% { transform: translate(2px, -3px); }
+            75% { transform: translate(-2px, -1px); }
+        }
+        @keyframes burn {
+            from { filter: saturate(1.5) brightness(1.1); }
+            to { filter: saturate(3) brightness(1.4) hue-rotate(-15deg); }
+        }
+
+        /* Triple-click the ॐ */
+        body.spin main {
+            animation: spin 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* sudo rm -rf */
+        main { transition: opacity 0.6s ease, filter 0.6s ease; }
+        body.void main { opacity: 0; filter: blur(20px); }
+
+        /* The eye blinks */
+        #iris { transition: transform 0.08s ease; }
+        #iris.blink { transform: scaleY(0.05); }
+        #pupil { transition: transform 0.15s ease-out; }
+
+        @media (prefers-reduced-motion: reduce) {
+            body.inferno main, body.spin main { animation: none; }
+        }
     </style>
 </head>
 <body class="bg-void text-white overflow-x-hidden">
@@ -58,7 +99,7 @@
             <div class="absolute inset-0 bg-gradient-to-b from-void via-charcoal to-void"></div>
 
             <!-- Sun Orb - simplified -->
-            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div id="sun" class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 cursor-pointer select-none" title="click me. thrice.">
                 <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-full" style="background: radial-gradient(circle, rgba(255,69,0,0.25) 0%, rgba(255,107,53,0.15) 50%, transparent 100%); box-shadow: 0 0 60px rgba(255,69,0,0.2);">
                     <div class="absolute inset-0 flex items-center justify-center">
                         <span class="text-6xl md:text-7xl text-ember/80 select-none">ॐ</span>
@@ -76,7 +117,7 @@
             <!-- Main Title -->
             <div class="relative z-40 text-center px-4 mt-24">
                 <div class="fade-in">
-                    <h1 class="font-display text-[12vw] md:text-[10vw] leading-none tracking-wider text-white title-glow">
+                    <h1 id="title" class="font-display text-[12vw] md:text-[10vw] leading-none tracking-wider text-white title-glow">
                         MUGTREE
                     </h1>
                 </div>
@@ -154,6 +195,12 @@
                         </div>
                     </div>
 
+                    <div id="term-out" class="mt-6 space-y-1 text-sm text-left max-h-48 overflow-y-auto"></div>
+                    <label class="mt-2 flex items-center gap-2 text-sm">
+                        <span class="text-ember/80">&gt;</span>
+                        <input id="term-in" class="flex-1 bg-transparent outline-none text-white/80 caret-ember placeholder:text-white/20" placeholder="type 'help'" autocomplete="off" spellcheck="false" aria-label="terminal input">
+                    </label>
+
                     <div class="mt-8 grid grid-cols-3 gap-3 text-center">
                         <div class="p-3 border border-ember/10 bg-ember/5 rounded">
                             <div class="text-2xl md:text-3xl font-display text-ember" id="counter-days">0</div>
@@ -184,8 +231,8 @@
                 <div class="w-[35vw] h-[35vw] max-w-[280px] max-h-[280px] rounded-full border border-ember/15"></div>
             </div>
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div class="w-[20vw] h-[20vw] max-w-[160px] max-h-[160px] rounded-full bg-gradient-to-br from-ember/20 to-rust/10 flex items-center justify-center">
-                    <div class="w-1/3 h-1/3 rounded-full bg-void"></div>
+                <div id="iris" class="w-[20vw] h-[20vw] max-w-[160px] max-h-[160px] rounded-full bg-gradient-to-br from-ember/20 to-rust/10 flex items-center justify-center">
+                    <div id="pupil" class="w-1/3 h-1/3 rounded-full bg-void shadow-[0_0_20px_rgba(255,69,0,0.4)]"></div>
                 </div>
             </div>
 
@@ -214,5 +261,6 @@
 
     <script type="module" src="particles.js"></script>
     <script type="module" src="main.js"></script>
+    <script type="module" src="chaos.js"></script>
 </body>
 </html>
